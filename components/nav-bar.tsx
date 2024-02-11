@@ -2,14 +2,16 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import Env from '@/util/Env';
 export default function NavBar() {
 	const pathName = usePathname();
 	const activeLink = (url: string) => pathName === url;
+	const isDevelopmentMode = Env();
 	return (
 		<div>
 			<nav className=' flex w-72 justify-between px-5 mt-4 items-center gap-6 h-14 rounded-lg border-[1px] border-neutral-700 bg-neutral-900 m-auto text-md'>
 				<div>
-					<Link href={'/'}>
+					<Link href={'/'} prefetch={true}>
 						<svg
 							width='24'
 							height='auto'
@@ -30,7 +32,7 @@ export default function NavBar() {
 					</Link>
 				</div>
 				<div className={'flex space-x-4 items-center'}>
-					<Link href='/' className='block '>
+					<Link href='/' prefetch={true} className='block '>
 						<>
 							<span
 								className={`${
@@ -41,17 +43,21 @@ export default function NavBar() {
 							</span>
 						</>
 					</Link>
-					<Link href='/create-blog' className='block '>
-						<>
-							<span
-								className={`${
-									activeLink('/create-blog') ? 'text-white' : 'text-neutral-500'
-								} hover:text-white`}
-							>
-								Create-Blog
-							</span>
-						</>
-					</Link>
+					{isDevelopmentMode && (
+						<Link href='/create-blog' prefetch={true} className='block '>
+							<>
+								<span
+									className={`${
+										activeLink('/create-blog')
+											? 'text-white'
+											: 'text-neutral-500'
+									} hover:text-white`}
+								>
+									Create-Blog
+								</span>
+							</>
+						</Link>
+					)}
 				</div>
 			</nav>
 		</div>
