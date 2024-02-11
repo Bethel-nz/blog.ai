@@ -9,3 +9,14 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Post {
+  id          Int      @id @default(autoincrement())
+  slug        String   @unique
+  title       String // Added title field
+  description String // Added description field
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+  views       Int      @default(0)
+  likes       Int      @default(0)
+}
