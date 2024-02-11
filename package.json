@@ -12,11 +12,13 @@
 	"dependencies": {
 		"@google/generative-ai": "^0.2.0",
 		"@nextui-org/react": "^2.2.9",
+		"@prisma/client": "^5.9.1",
 		"@upstash/ratelimit": "^1.0.1",
 		"@vercel/kv": "^1.0.1",
 		"ai": "^2.2.34",
 		"framer-motion": "^11.0.3",
 		"next": "14.1.0",
+		"prisma": "^5.9.1",
 		"react": "^18",
 		"react-dom": "^18",
 		"swr": "^2.2.4"
