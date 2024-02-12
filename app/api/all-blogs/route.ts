@@ -1,7 +1,7 @@
 import prisma from '@/prisma/client';
 import { NextResponse } from 'next/server';
 
-export default async function GET(request: Request, response: Response) {
+export const GET =  async (request: Request, _: Response) =>{
 	try {
 		const allBlogs = await prisma.blog.findMany();
 		return new NextResponse(JSON.stringify(allBlogs), {

@@ -5,7 +5,7 @@ type Body = {
 	title: string;
 	prompt: string;
 };
-export default async function POST(request: Request, response: Response) {
+export const POST = async (request: Request, _: Response) => {
 	try {
 		const body = await request.json();
 		const { title, prompt }: Body = body;
@@ -27,4 +27,4 @@ export default async function POST(request: Request, response: Response) {
 	} catch {
 		return new NextResponse('Internal Server Error', { status: 500 });
 	}
-}
+};
