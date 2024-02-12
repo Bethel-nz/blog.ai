@@ -12,10 +12,11 @@ const page = async ({ params: { slug } }: { params: { slug: string } }) => {
 	const data = blog?.title + ' prompt: ' + blog?.prompt;
 	return (
 		<div>
-			<h2 className={'text-3xl font-semibold text-left mb-4 w-full'}>{topic}</h2>
-			<div>
-
-			<AiMessage chat={data} />
+			<h2 className={'text-3xl font-semibold text-left mb-4 w-full'}>
+				{topic}
+			</h2>
+			<div className='overflow-y-scroll border-[1px] border-neutral-600 rounded-md'>
+				<AiMessage chat={data} />
 			</div>
 		</div>
 	);
