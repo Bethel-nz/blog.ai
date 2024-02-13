@@ -1,7 +1,5 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Markdown from 'markdown-to-jsx';
 
 type Answer = {
 	text: string;
@@ -9,36 +7,40 @@ type Answer = {
 
 const AiMessage: React.FC<{ chat: string }> = ({ chat }) => {
 	const markdownToHtml = (markdown: string): string => {
-		// Replace headers
-		markdown = markdown.replace(/#{1,6} (.+?)\n/g, (_, header) => {
-			const level = _.indexOf('#');
-			return `<h${level}>${header}</h${level}>\n`;
-		});
-
-		// Replace code blocks
-		markdown = markdown.replace(/```(.+?)\n([\s\S]+?)```/g, (_, lang, code) => {
-			return `<pre><code>${code}</code></pre>`;
-		});
-
-		// Replace bold text
-		markdown = markdown.replace(/\*\*(.*?)\*\*/g, (_, text) => {
-			return `<span class="font-bold mt-2">${text}</span>`;
-		});
-
-		// Replace newlines
-		markdown = markdown.replace(/\n/g, '<div className={`mt-2`}/>');
-
-		// Replace lines starting with "-" with unordered lists
-		markdown = markdown.replace(/^- (.+?)\n/g, (_, item) => {
-			return `<ul class="mt-2"><li>${item}</li></ul>`;
-		});
-
+		markdown = markdown
+			.replace(
+				/#{1,6} (.+?)\n/g,
+				(_, header) =>
+					`<h${_.length} style="font-size: ${
+						16 - _.length * 2
+					}px;">${header}</h${_.length}>`
+			)
+			.replace(/```(.+?)\n([\s\S]+?)```/g, (_, lang, code) => {
+				return `<pre style="background-color: gray; padding: 0.75rem; margin: 0.5rem 0; border-radius: 8px; width:fit-content;"><code>${code}</code></pre>`;
+			})
+			.replace(
+				/\*\*(.*?)\*\*/g,
+				(_, text) =>
+					`<span style="font-weight: bold; margin-top: 0.8rem;">${text}</span>`
+			)
+			.replace(/\n/g, '<div style="margin-top: 0.5rem;"></div>')
+			.replace(
+				/^- (.+?)\n/g,
+				(_, item) => `<ul style="margin-top: 0.8rem;"><li>${item}</li></ul>`
+			);
 		return markdown;
 	};
 
-	if (chat) return <div dangerouslySetInnerHTML={{ __html: markdownToHtml(chat) }} />;
+	if (chat) {
+		return (
+			<div
+				dangerouslySetInnerHTML={{ __html: markdownToHtml(chat) }}
+				className='text-sm md:text-md w-full'
+			/>
+		);
+	}
 
-	return 'Loading...';
+	return null;
 };
 
 export default AiMessage;

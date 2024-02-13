@@ -21,6 +21,7 @@ export default function Home() {
 		refreshInterval: 1000,
 	});
 	if (!data) return <SkeletonLoader />;
+	if (error) return console.log(`[ALL - BLOGS] - ${error}`);
 
 	return (
 		<>

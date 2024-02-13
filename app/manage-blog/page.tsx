@@ -13,7 +13,7 @@ import {
 
 export default function ManageBlog() {
 	return (
-		<div className='flex  flex-col w-[28em] mt-8 h-[100dvh]'>
+		<div className='flex  flex-col md:w-[28em] w-[22em] mt-8 h-[100dvh]'>
 			<Tabs variant='bordered' color={'default'}>
 				<Tab key='Create' title='Create Blog'>
 					<Card className={' bg-neutral-900 mt-12 border-2'}>
