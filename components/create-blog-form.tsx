@@ -2,10 +2,8 @@ import { Button } from '@nextui-org/react';
 import React, { FormEvent, useState } from 'react';
 
 import axios from 'axios';
-import { useSWRConfig } from 'swr';
 import { Input, Textarea } from '@nextui-org/react';
 export default function BlogForm() {
-	const { fetcher, mutate } = useSWRConfig();
 	const [data, setData] = useState({
 		title: '',
 		prompt: '',
@@ -18,16 +16,7 @@ export default function BlogForm() {
 	};
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
-		console.log(data);
-		const response = await axios.post('/api/create-blog', data);
-		mutate(
-			'/api/create-blog',
-			async (currentData) => {
-				const updatedData = [...currentData, data];
-				return updatedData;
-			},
-			false
-		);
+		await axios.post('/api/create-blog', data);
 		setData({
 			title: '',
 			prompt: '',
