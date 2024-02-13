@@ -8,23 +8,36 @@ type Answer = {
 };
 
 const AiMessage: React.FC<{ chat: string }> = ({ chat }) => {
-	const [data, setData] = useState<string | null>(null);
+	const markdownToHtml = (markdown: string): string => {
+		// Replace headers
+		markdown = markdown.replace(/#{1,6} (.+?)\n/g, (_, header) => {
+			const level = _.indexOf('#');
+			return `<h${level}>${header}</h${level}>\n`;
+		});
 
-	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				const res = await axios.post(`/api/chat`, { messages: chat });
-				const result: Answer = res.data;
-				setData(result.text);
-			} catch (error) {
-				console.error(error);
-			}
-		};
+		// Replace code blocks
+		markdown = markdown.replace(/```(.+?)\n([\s\S]+?)```/g, (_, lang, code) => {
+			return `<pre><code>${code}</code></pre>`;
+		});
 
-		fetchData();
-	}, [chat]);
-	if(data) return <Markdown>{ (data as string)}</Markdown> 
-	
+		// Replace bold text
+		markdown = markdown.replace(/\*\*(.*?)\*\*/g, (_, text) => {
+			return `<span class="font-bold mt-2">${text}</span>`;
+		});
+
+		// Replace newlines
+		markdown = markdown.replace(/\n/g, '<div className={`mt-2`}/>');
+
+		// Replace lines starting with "-" with unordered lists
+		markdown = markdown.replace(/^- (.+?)\n/g, (_, item) => {
+			return `<ul class="mt-2"><li>${item}</li></ul>`;
+		});
+
+		return markdown;
+	};
+
+	if (chat) return <div dangerouslySetInnerHTML={{ __html: markdownToHtml(chat) }} />;
+
 	return 'Loading...';
 };
 

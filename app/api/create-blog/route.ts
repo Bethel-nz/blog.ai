@@ -21,6 +21,7 @@ export const POST = async (request: Request, _: Response) => {
 				title,
 				prompt,
 				slug: title,
+				views: 1,
 			},
 		});
 		return NextResponse.json(newBlogTitle);
