@@ -4,6 +4,14 @@ import PostToAi from '@/util/post-to-ai';
 import React from 'react';
 import { Metadata, ResolvingMetadata } from 'next';
 
+export async function generateStaticParams() {
+	const blogs = await prisma.blog.findMany();
+
+	return blogs.map((blog) => ({
+		slug: blog.slug,
+	}));
+}
+
 type Props = {
 	params: { slug: string };
 	searchParams: { [key: string]: string | string[] | undefined };
