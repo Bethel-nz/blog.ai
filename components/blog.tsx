@@ -29,7 +29,7 @@ const Blog = ({
 				'min-h-fit md:w-[32em] w-[22em] bg-neutral-900 rounded-lg border-[1px] border-neutral-700 px-4 my-2 py-4'
 			}
 		>
-			<div className='flex justify-between items-center '>
+			<div className='flex justify-between items-center text-white'>
 				<Link href={`/blog/${slug}`}>
 					<h3 className={'text-lg'}>{title}</h3>
 				</Link>

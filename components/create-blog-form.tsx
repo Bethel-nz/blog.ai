@@ -8,51 +8,39 @@ export default function BlogForm() {
 		title: '',
 		prompt: '',
 	});
+	const [isSubmitting, setIsSubmitting] = useState(false);
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target;
 		setData((prev) => ({
 			...prev,
-			[e.target.name]: e.target.value,
+			[name]: value,
 		}));
 	};
 	const handleSubmit = async (e: FormEvent) => {
+		setIsSubmitting(true);
 		e.preventDefault();
-		await axios.post('/api/create-blog', data);
-		setData({
-			title: '',
-			prompt: '',
-		});
+		if (data) {
+			await axios.post('/api/manage-blog', data);
+			setData({
+				title: '',
+				prompt: '',
+			});
+		}
+		setIsSubmitting(false);
 	};
 	return (
-		<form className='flex flex-col gap-4' onSubmit={handleSubmit}>
+		<form
+			className='flex flex-col justify-between gap-4 font-semibold'
+			onSubmit={handleSubmit}
+		>
 			<Input
 				variant='faded'
 				name='title'
 				isRequired
-				label='Enter your Title'
+				label='Enter your blog title'
 				type='text'
 				onChange={(e) => handleChange(e)}
 				value={data.title}
-				classNames={{
-					label: ' text-white',
-					input: [
-						'bg-transparent',
-						'text-black/90 ',
-						'placeholder:text-default-700/50 ',
-					],
-					innerWrapper: 'bg-transparent',
-					inputWrapper: [
-						'shadow-xl',
-						'bg-default-200/50',
-						'dark:bg-default/60',
-						'backdrop-blur-xl',
-						'backdrop-saturate-200',
-						'hover:bg-default-200/70',
-						'dark:hover:bg-default/70',
-						'group-data-[focused=true]:bg-default-200/50',
-						'dark:group-data-[focused=true]:bg-default/60',
-						'!cursor-text',
-					],
-				}}
 			/>
 			<Textarea
 				isRequired
@@ -63,32 +51,18 @@ export default function BlogForm() {
 				onChange={(e) => handleChange(e)}
 				value={data.prompt}
 				classNames={{
-					label: ' text-white',
-
-					input: [
-						'bg-transparent',
-						'text-black/90 ',
-						'placeholder:text-default-700/50 ',
-						'resize-y main-h-[40px]',
-					],
-
-					innerWrapper: 'bg-transparent',
-					inputWrapper: [
-						'shadow-xl',
-						'bg-default-200/50',
-						'dark:bg-default/60',
-						'backdrop-blur-xl',
-						'backdrop-saturate-200',
-						'hover:bg-default-200/70',
-						'dark:hover:bg-default/70',
-						'group-data-[focused=true]:bg-default-200/50',
-						'dark:group-data-[focused=true]:bg-default/60',
-						'!cursor-text',
-					],
+					input: 'resize-y min-h-[20rem]',
 				}}
 			/>
 
-			<Button fullWidth role='submit' type={'submit'}>
+			<Button
+				fullWidth
+				role='submit'
+				type={'submit'}
+				size='lg'
+				className={'font-semibold'}
+				spinner={isSubmitting}
+			>
 				Submit
 			</Button>
 		</form>

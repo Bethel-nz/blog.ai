@@ -29,3 +29,21 @@ export const POST = async (request: Request, _: Response) => {
 		return new NextResponse('Internal Server Error', { status: 500 });
 	}
 };
+
+export const DELETE = async (request: Request, _: Response) => {
+	try {
+		const body = await request.json();
+		const { id }: { id: number } = body;
+		if (!id) {
+			return new NextResponse('Blog ID is Required', { status: 400 });
+		}
+		const deletedBlog = await prisma.blog.delete({
+			where: {
+				id,
+			},
+		});
+		return NextResponse.json(deletedBlog);
+	} catch (error) {
+		return new NextResponse('Internal Server Error', { status: 500 });
+	}
+};

@@ -4,14 +4,6 @@ import PostToAi from '@/util/post-to-ai';
 import React from 'react';
 import { Metadata, ResolvingMetadata } from 'next';
 
-export async function generateStaticParams() {
-	const blogs = await prisma.blog.findMany();
-
-	return blogs.map((blog) => ({
-		slug: blog.slug,
-	}));
-}
-
 type Props = {
 	params: { slug: string };
 	searchParams: { [key: string]: string | string[] | undefined };
@@ -69,7 +61,7 @@ const page = async ({ params: { slug } }: { params: { slug: string } }) => {
           scrollbar-width: none;
         }
       `}</style>
-			<div className={'px-2'}>
+			<div className={'px-2 text-white'}>
 				<h2
 					className={
 						'md:text-3xl text-xl font-semibold mb-4 w-full text-center'
